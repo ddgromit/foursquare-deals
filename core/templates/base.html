@@ -1,0 +1,28 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="description" content="" />
+<meta name="keywords" content="" />
+<meta name="author" content="" />
+
+<title>{% block title %}{% endblock %}</title>
+<!--<link rel="shortcut icon" type="image/bmp" href="/static/images/favicon.gif" />-->
+{% block css %}
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/reset.css" media="screen,projection" />
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/base.css" media="screen,projection" />
+{% endblock %}
+
+{% block javascript %}
+{% endblock javascript %}
+
+{% block analytics %}
+{% endblock analytics %}
+
+</head>
+<body class="">
+{% block body %}{% endblock %}
+
+</body>
+</html>
+
