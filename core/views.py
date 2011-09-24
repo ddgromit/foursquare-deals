@@ -1,10 +1,8 @@
 from django.shortcuts import render
-from lib.foursquare import FoursquareAuthHelper, FoursquareClient
-import settings
 from django import http
-import httplib2
-import simplejson
+from django.contrib.auth import authenticate, login
 from lib.foursquare_helpers import init_auth, request_access_token, foursquare_user_id
+from lib.site_auth import create_foursquare_user
 
 def homepage_handler(request):
     return render(request,'homepage.html',{})
@@ -28,11 +26,15 @@ def foursquare_login_callback(request):
 	access_token = request_access_token(code)
 
 	# Retrieve foursquare user account details
-	user_id = foursquare_user_id(access_token)
+	foursquare_id = foursquare_user_id(access_token)
 
-	# Load or create a user
+	# Create user if it doesn't exist
+	user = authenticate(foursquare_id = int(foursquare_id))
+	if not user:
+		user = create_foursquare_user(foursquare_id)
 
 	# Log this user in
-
+	login(request,user)
+		
 	# Redirect to homepage
-	return http.HttpResponse("Foursquare User Id:" + str(user_id))
+	return http.HttpResponseRedirect("/")
