@@ -1,0 +1,22 @@
+.masthead {
+	padding-top: 20px;
+}
+.masthead h1 {
+	font-size: 48px;
+}
+.inner {
+	
+}
+
+#foursquare-account, #boxcar-account {
+	margin-top: 30px;
+}
+
+footer {
+	background-color: #EEE;
+	margin-top: 100px;
+	text-shadow: 0 1px 0 white;
+	padding-bottom: 10px;
+	border-top: 1px solid #E5E5E5;
+	border-bottom: 1px solid #E5E5E5;
+}

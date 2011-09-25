@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django import http
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from lib.foursquare_helpers import init_auth, request_access_token, foursquare_user_id
 from lib.site_auth import create_foursquare_user
 
@@ -41,4 +41,8 @@ def foursquare_login_callback(request):
 	login(request,user)
 		
 	# Redirect to homepage
+	return http.HttpResponseRedirect("/")
+
+def logout_handler(request):
+	logout(request)
 	return http.HttpResponseRedirect("/")

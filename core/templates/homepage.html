@@ -3,9 +3,10 @@
 {% block css %}
 {{ block.super }}
 <!--<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/"/>-->
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/homepage.css"/>
 {% endblock css %}
 
-{% block title %}Page Title{%endblock%}
+{% block title %}Checkin Deals{%endblock%}
 
 {% block javascript %}
 {{ block.super }}
@@ -18,13 +19,100 @@
 
 
 {% block body %}
-homepage <BR />
-{% if user.is_authenticated %}
-Logged in with foursquare id:
-{{ user.get_profile.foursquare_id }}
-Access token: {{ user.get_profile.foursquare_access_token }}
-{% else %}
-Logged out
-{% endif %}
+<div class="masthead">
+	<div class="inner">
+		<div class="container">
+			<h1>Checkin Deals</h1>
+		</div>
+	</div>
+</div>
+<div class="container">
+	<div class="row">
+		<div class="span12">
+
+			<section id="foursquare-account">
+				<div class="page-header">
+					<h1>
+						Foursquare
+						<small>Connect with your foursquare account</small>
+					</h1>
+				</div>
+
+				<div class="row">
+					<div class="span12">
+						{% if user.is_authenticated %}
+
+						<div class="alert-message block-message success">
+						  <p>
+						  	<strong>Awesome! You're Connected!</strong> 
+						  	We'll be keeping a lookout for your checkins.
+						  </p>
+
+						</div>
+
+						<!--
+							Logged in with foursquare id:
+							{{ user.get_profile.foursquare_id }}
+							Access token: {{ user.get_profile.foursquare_access_token }}
+						-->
+
+						{% else %}
+						<a href="/login" class="btn large primary">Login With Foursquare</a>
+						{% endif %}
+					</div>
+				</div>
+			</section>
+
+			{% if user.is_authenticated %}
+			<section id="boxcar-account">
+				<div class="page-header">
+					<h1>
+						Boxcar
+						<small>Create or connect your boxcar.io account</small>
+					</h1>
+				</div>
+
+				<div class="row">
+					<div class="span12">
+						
+						<div class="alert-message block-message warning">
+						  	<p>
+						        <strong>Fill in your boxcar.io email address.</strong> 
+						        Notifications will be sent to devices tied to that account.
+						  	</p>
+						</div>
+
+						<form action class="form-stacked">
+							<fieldset>
+								<legend>Boxcar</legend>
+								<div class="clearfix">
+						            <label for="xlInput3">Your Boxcar.io Email</label>
+						            <div class="input">
+						              	<input class="xlarge" id="boxcar-email" name="boxcar_email" size="40" type="text">
+						            </div>
+						        </div>
+						    </fieldset>
+						    <div class="actions">
+          						<button type="submit" class="btn primary">Save</button>
+        					</div>
+						</div>
+					</div>
+				</div>
+			</section>
+			{% endif %}
+
+		<!-- / Default centering -->
+		</div>
+	</div>
+</div>
+
+<footer class="footer">
+    <div class="container">
+        <p>
+        	Built by <a href="http://twitter.com/derekdahmer" target="_blank">@derekdahmer</a> using the wonderful foursquare, boxcar and hyperpublic APIs.<br />
+        	Code is open sourced at <a href="http://github.com/ddgromit/foursquare-deals" target="_blank">Github</a>.
+        </p>
+    </div>
+</footer>
 
 {% endblock body %}
