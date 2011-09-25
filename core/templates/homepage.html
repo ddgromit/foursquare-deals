@@ -82,13 +82,53 @@
 						  	</p>
 						</div>
 
-						<form action class="form-stacked">
+						<form action="update_boxcar" class="form-stacked" method="POST">
+							{% csrf_token %}
 							<fieldset>
 								<legend>Boxcar</legend>
 								<div class="clearfix">
 						            <label for="xlInput3">Your Boxcar.io Email</label>
 						            <div class="input">
-						              	<input class="xlarge" id="boxcar-email" name="boxcar_email" size="40" type="text">
+						              	<input class="xlarge" id="boxcar-email" name="boxcar_email" size="40" type="email" 
+						              	value="{{user.get_profile.boxcar_email}}">
+						            </div>
+						        </div>
+						    </fieldset>
+						    <div class="actions">
+          						<button type="submit" class="btn primary">Save</button>
+        					</div>
+						</form>
+					</div>
+				</div>
+			</section>
+
+			<section id="notifo-account">
+				<div class="page-header">
+					<h1>
+						Notifo
+						<small>Create or connect your notifo account</small>
+					</h1>
+				</div>
+
+				<div class="row">
+					<div class="span12">
+						
+						<div class="alert-message block-message warning">
+						  	<p>
+						        <strong>Fill in your notifo username.</strong> 
+						        Notifications will be sent to devices tied to that account.
+						  	</p>
+						</div>
+
+						<form action="/update_notifo" method="POST" class="form-stacked">
+							{% csrf_token %}
+							<fieldset>
+								<legend>Notifo</legend>
+								<div class="clearfix">
+						            <label for="xlInput3">Your Notifo Username</label>
+						            <div class="input">
+						              	<input class="xlarge" id="notifo-username" name="notifo_username" size="40" type="text" 
+						              	value="{{user.get_profile.notifo_username}}">
 						            </div>
 						        </div>
 						    </fieldset>
