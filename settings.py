@@ -23,7 +23,7 @@ DATABASES = {
     }
 }
 
-AUTH_PROFILE_MODULE = 'core.models.UserProfile'
+AUTH_PROFILE_MODULE = 'core.UserProfile'
 
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',

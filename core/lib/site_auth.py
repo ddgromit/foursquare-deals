@@ -14,7 +14,7 @@ class FoursquareBackend(ModelBackend):
             return None
 
 
-def create_foursquare_user(foursquare_id):
+def create_foursquare_user(foursquare_id, access_token):
     # Since we don't have a username, just generate one
     username = "foursquare_user_" + foursquare_id
     fake_email = username + "@example.com" # Don't know why we have to do this
@@ -22,7 +22,10 @@ def create_foursquare_user(foursquare_id):
     user.save()
 
     try:
-        user_profile = UserProfile(user = user, foursquare_id = foursquare_id)
+        user_profile = UserProfile(
+            user = user, 
+            foursquare_id = foursquare_id, 
+            foursquare_access_token = access_token)
         user_profile.save()
     except Exception:
         # If profile creation fails, clean up the user too

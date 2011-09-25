@@ -31,7 +31,11 @@ def foursquare_login_callback(request):
 	# Create user if it doesn't exist
 	user = authenticate(foursquare_id = int(foursquare_id))
 	if not user:
-		user = create_foursquare_user(foursquare_id)
+		user = create_foursquare_user(
+			foursquare_id = foursquare_id,
+			access_token = access_token,
+		)
+		user = authenticate(foursquare_id = int(foursquare_id))
 
 	# Log this user in
 	login(request,user)

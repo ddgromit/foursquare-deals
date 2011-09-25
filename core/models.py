@@ -5,3 +5,5 @@ from django.contrib.auth.models import User
 class UserProfile(models.Model):
     user = models.OneToOneField(User)
     foursquare_id = models.IntegerField()
+    foursquare_access_token = models.CharField(max_length=255)
+    

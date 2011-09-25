@@ -19,5 +19,12 @@
 
 {% block body %}
 homepage <BR />
-Logged in:{{ user.is_authenticated }}
+{% if user.is_authenticated %}
+Logged in with foursquare id:
+{{ user.get_profile.foursquare_id }}
+Access token: {{ user.get_profile.foursquare_access_token }}
+{% else %}
+Logged out
+{% endif %}
+
 {% endblock body %}
