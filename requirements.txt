@@ -1,1 +1,9 @@
-django
+Django==1.3.1
+Hyperpublic==0.1
+distribute==0.6.19
+httplib2==0.7.1
+notifo==0.3.0
+oauth==1.0.1
+simplejson==2.2.1
+wsgiref==0.1.2
+git+https://github.com/hyperpublic/hyperpublic_python.git
