@@ -4,16 +4,22 @@ from core.models import UserProfile
 from notifo import Notifo
 import settings
 
-class FoursquareBackend(ModelBackend):
-    """ Authenticate a user based on their foursquare id
-    """
+# Retrieves a User object based on their stored foursquare id on their user profile
+def user_by_foursquare_id(foursquare_id):
+    try:
+        user_profile = UserProfile.objects.get(foursquare_id=foursquare_id)
+        return user_profile.user # indicates success
+    except UserProfile.DoesNotExist:
+        return None
 
+class FoursquareBackend(ModelBackend):
+    """ 
+    Allows us to use the traditional django auth mechanisms (login(), authenticate()) using 
+    a foursquare ID instead of a username/pass
+    """
     def authenticate(self, foursquare_id):
-        try:
-            user_profile = UserProfile.objects.get(foursquare_id=foursquare_id)
-            return user_profile.user # indicates success
-        except UserProfile.DoesNotExist:
-            return None
+        # Either return the user if exists or None if it doesnt
+        return user_by_foursquare_id(foursquare_id)
 
 
 def create_foursquare_user(foursquare_id, access_token):
@@ -57,9 +63,3 @@ def update_notifo_username(user,notifo_username):
     )
     notifo.subscribe_user(notifo_username)
 
-def test_notifo(user):
-    notifo = Notifo(
-        user = settings.NOTIFO_CONFIG['username'],
-        secret = settings.NOTIFO_CONFIG['secret'],
-    )
-    notifo.send_notification(to='ddgromit',msg='whatup',uri='http://www.google.com')

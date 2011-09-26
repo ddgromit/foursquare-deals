@@ -2,9 +2,14 @@ from django.shortcuts import render
 from django import http
 from django.contrib.auth import authenticate, login, logout
 from lib.foursquare_helpers import init_auth, request_access_token, foursquare_user_id
-from lib.site_auth import create_foursquare_user, update_notifo_username, update_boxcar_email, test_notifo
+from lib.site_auth import create_foursquare_user, update_notifo_username, update_boxcar_email, \
+	user_by_foursquare_id
 from django.contrib.auth.decorators import login_required
 from lib.offers import offers_near
+import logging
+from lib.notifications import send_notifo_offer, test_notifo
+from django.views.decorators.csrf import csrf_exempt 
+import simplejson
 
 def homepage_handler(request):
     return render(request,'homepage.html',{})
@@ -83,5 +88,29 @@ def checkin_offers_handler(request):
 		return http.HttpResponse("")
 	else:
 		raise Exception('expected lat,lon or checkin_id')
-		
 
+@csrf_exempt
+def checkin_push_handler(request):
+	# Parse the POSTed checkin data
+	checkin = simplejson.loads(request.raw_post_data)
+	assert("id" in checkin, "No checkin")
+
+	# Get out the relevant vars
+	foursquare_id = checkin['user']['id']
+	lat = checkin['venue']['location']['lat']
+	lon = checkin['venue']['location']['lng']
+
+	# Load the user
+	user = user_by_foursquare_id(foursquare_id)
+	if not user:
+		logging.error("Got a checkin request from nonexistant foursquare user: " + str(foursquare_id))
+		raise Exception("Got a checkin request from nonexistant foursquare user: " + str(foursquare_id))
+
+	# Send the notification
+	sent = send_notifo_offer(user = user, lat=lat, lon = lon)
+	if sent:
+		logging.info('Sent notification.')
+	else:
+		logging.info("Didn't send notification")
+
+	return http.HttpResponse("ok")

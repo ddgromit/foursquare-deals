@@ -16,4 +16,7 @@ urlpatterns = patterns('core.views',
     # Homepages
     url('^checkin_offers$','checkin_offers_handler'),
 
+    # Foursquare API
+    url('^checkin_push$','checkin_push_handler'),
+
 )
