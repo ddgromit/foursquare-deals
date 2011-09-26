@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block css %}
+{{ block.super }}
+<!--<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/"/>-->
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/checkin_offers.css"/>
+{% endblock css %}
+
+{% block title %}Checkin Deals{%endblock%}
+
+{% block javascript %}
+{{ block.super }}
+<!--<script type="text/javascript" src="{{ STATIC_URL }}js/jquery-1.6.2.min.js"></script>-->
+{% endblock javascript %}
+
+{% block analytics %}
+{{ block.super }}
+{% endblock %}
+
+
+{% block body %}
+
+<div class="main-column">
+	<div class="header">
+		<h1>Deals Near Your Checkin</h1>
+	</div>
+	{% for offer in offers %}
+	<div class="offer">
+		<h3 class="title">{{offer.title}}</h3>
+		<div class="image-container">
+			<img src="{{offer.image_url}}" class="image" onerror="this.parentNode.style.display='none'"/>
+		</div>
+		<div class="place">
+			<div class="place-name">{{ offer.place.name }}</div>
+			<div class="location">{{offer.place.address}}</div>
+		</div>
+		<div class="buttons">
+			<a href="{{offer.url}}" class="btn large primary buy-button">Buy</a>
+		</div>
+		<!--
+		<p class="description">
+			{{ offer.description}}
+		</p>
+		-->
+	</div>
+	{% endfor %}
+</div>
+
+{% endblock body %}

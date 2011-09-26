@@ -4,7 +4,7 @@ from django.contrib.auth import authenticate, login, logout
 from lib.foursquare_helpers import init_auth, request_access_token, foursquare_user_id
 from lib.site_auth import create_foursquare_user, update_notifo_username, update_boxcar_email, test_notifo
 from django.contrib.auth.decorators import login_required
-
+from lib.offers import offers_near
 
 def homepage_handler(request):
     return render(request,'homepage.html',{})
@@ -62,7 +62,26 @@ def update_boxcar_handler(request):
 def test_notifo_handler(request):
 	test_notifo(request.user)
 	return http.HttpResponse('cool')
-	
+
 def logout_handler(request):
 	logout(request)
 	return http.HttpResponseRedirect("/")
+
+def checkin_offers_handler(request):
+	lat = request.GET.get('lat')
+	lon = request.GET.get('lon')
+
+	checkin_id = request.GET.get('checkin_id')
+
+	if lat and lon:
+		offers = offers_near(lat,lon)
+
+		return render(request,'checkin_offers.html', {
+			'offers':offers,
+		})
+	elif checkin_id:
+		return http.HttpResponse("")
+	else:
+		raise Exception('expected lat,lon or checkin_id')
+		
+
